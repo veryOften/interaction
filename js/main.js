@@ -136,4 +136,340 @@
             },
         },
     ];
+
+    function calcValues(values, currentYOffset) {
+        let rv;
+        // 현재 씬(스크롤섹션)에서 스크롤된 범위를 비율로 구하기
+        const scrollHeight = sceneInfo[currentScene].scrollHeight;
+        const scrollRatio = currentYOffset / scrollHeight;
+
+        if (values.length === 3) {
+            // start ~ end 사이에 애니메이션 실행
+            const partScrollStart = values[2].start * scrollHeight;
+            const partScrollEnd = values[2].end * scrollHeight;
+            const partScrollHeight = partScrollEnd - partScrollStart;
+
+            if (
+                currentYOffset >= partScrollStart &&
+                currentYOffset <= partScrollEnd
+            ) {
+                rv =
+                    ((currentYOffset - partScrollStart) / partScrollHeight) *
+                        (values[1] - values[0]) +
+                    values[0];
+            } else if (currentYOffset < partScrollStart) {
+                rv = values[0];
+            } else if (currentYOffset > partScrollEnd) {
+                rv = values[1];
+            }
+        } else {
+            rv = scrollRatio * (values[1] - values[0]) + values[0];
+        }
+
+        return rv;
+    }
+
+    function playAnimation() {
+        const objs = sceneInfo[currentScene].objs;
+        const values = sceneInfo[currentScene].values;
+        const currentYOffset = yOffset - prevScrollHeight;
+        const scrollHeight = sceneInfo[currentScene].scrollHeight;
+        const scrollRatio = currentYOffset / scrollHeight;
+
+        switch (currentScene) {
+            case 0:
+                // console.log('0 play');
+                // let sequence = Math.round(calcValues(values.imageSequence, currentYOffset));
+                // objs.context.drawImage(objs.videoImages[sequence], 0, 0);
+                objs.canvas.style.opacity = calcValues(
+                    values.canvas_opacity,
+                    currentYOffset
+                );
+
+                if (scrollRatio <= 0.22) {
+                    // in
+                    objs.messageA.style.opacity = calcValues(
+                        values.messageA_opacity_in,
+                        currentYOffset
+                    );
+                    objs.messageA.style.transform = `translate3d(0, ${calcValues(
+                        values.messageA_translateY_in,
+                        currentYOffset
+                    )}%, 0)`;
+                } else {
+                    // out
+                    objs.messageA.style.opacity = calcValues(
+                        values.messageA_opacity_out,
+                        currentYOffset
+                    );
+                    objs.messageA.style.transform = `translate3d(0, ${calcValues(
+                        values.messageA_translateY_out,
+                        currentYOffset
+                    )}%, 0)`;
+                }
+
+                if (scrollRatio <= 0.42) {
+                    // in
+                    objs.messageB.style.opacity = calcValues(
+                        values.messageB_opacity_in,
+                        currentYOffset
+                    );
+                    objs.messageB.style.transform = `translate3d(0, ${calcValues(
+                        values.messageB_translateY_in,
+                        currentYOffset
+                    )}%, 0)`;
+                } else {
+                    // out
+                    objs.messageB.style.opacity = calcValues(
+                        values.messageB_opacity_out,
+                        currentYOffset
+                    );
+                    objs.messageB.style.transform = `translate3d(0, ${calcValues(
+                        values.messageB_translateY_out,
+                        currentYOffset
+                    )}%, 0)`;
+                }
+
+                if (scrollRatio <= 0.62) {
+                    // in
+                    objs.messageC.style.opacity = calcValues(
+                        values.messageC_opacity_in,
+                        currentYOffset
+                    );
+                    objs.messageC.style.transform = `translate3d(0, ${calcValues(
+                        values.messageC_translateY_in,
+                        currentYOffset
+                    )}%, 0)`;
+                } else {
+                    // out
+                    objs.messageC.style.opacity = calcValues(
+                        values.messageC_opacity_out,
+                        currentYOffset
+                    );
+                    objs.messageC.style.transform = `translate3d(0, ${calcValues(
+                        values.messageC_translateY_out,
+                        currentYOffset
+                    )}%, 0)`;
+                }
+
+                if (scrollRatio <= 0.82) {
+                    // in
+                    objs.messageD.style.opacity = calcValues(
+                        values.messageD_opacity_in,
+                        currentYOffset
+                    );
+                    objs.messageD.style.transform = `translate3d(0, ${calcValues(
+                        values.messageD_translateY_in,
+                        currentYOffset
+                    )}%, 0)`;
+                } else {
+                    // out
+                    objs.messageD.style.opacity = calcValues(
+                        values.messageD_opacity_out,
+                        currentYOffset
+                    );
+                    objs.messageD.style.transform = `translate3d(0, ${calcValues(
+                        values.messageD_translateY_out,
+                        currentYOffset
+                    )}%, 0)`;
+                }
+
+                break;
+
+            case 2:
+                // console.log('2 play');
+                // let sequence2 = Math.round(calcValues(values.imageSequence, currentYOffset));
+                // objs.context.drawImage(objs.videoImages[sequence2], 0, 0);
+
+                if (scrollRatio <= 0.5) {
+                    // in
+                    objs.canvas.style.opacity = calcValues(
+                        values.canvas_opacity_in,
+                        currentYOffset
+                    );
+                } else {
+                    // out
+                    objs.canvas.style.opacity = calcValues(
+                        values.canvas_opacity_out,
+                        currentYOffset
+                    );
+                }
+
+                if (scrollRatio <= 0.32) {
+                    // in
+                    objs.messageA.style.opacity = calcValues(
+                        values.messageA_opacity_in,
+                        currentYOffset
+                    );
+                    objs.messageA.style.transform = `translate3d(0, ${calcValues(
+                        values.messageA_translateY_in,
+                        currentYOffset
+                    )}%, 0)`;
+                } else {
+                    // out
+                    objs.messageA.style.opacity = calcValues(
+                        values.messageA_opacity_out,
+                        currentYOffset
+                    );
+                    objs.messageA.style.transform = `translate3d(0, ${calcValues(
+                        values.messageA_translateY_out,
+                        currentYOffset
+                    )}%, 0)`;
+                }
+
+                if (scrollRatio <= 0.67) {
+                    // in
+                    objs.messageB.style.transform = `translate3d(0, ${calcValues(
+                        values.messageB_translateY_in,
+                        currentYOffset
+                    )}%, 0)`;
+                    objs.messageB.style.opacity = calcValues(
+                        values.messageB_opacity_in,
+                        currentYOffset
+                    );
+                    objs.pinB.style.transform = `scaleY(${calcValues(
+                        values.pinB_scaleY,
+                        currentYOffset
+                    )})`;
+                } else {
+                    // out
+                    objs.messageB.style.transform = `translate3d(0, ${calcValues(
+                        values.messageB_translateY_out,
+                        currentYOffset
+                    )}%, 0)`;
+                    objs.messageB.style.opacity = calcValues(
+                        values.messageB_opacity_out,
+                        currentYOffset
+                    );
+                    objs.pinB.style.transform = `scaleY(${calcValues(
+                        values.pinB_scaleY,
+                        currentYOffset
+                    )})`;
+                }
+
+                if (scrollRatio <= 0.93) {
+                    // in
+                    objs.messageC.style.transform = `translate3d(0, ${calcValues(
+                        values.messageC_translateY_in,
+                        currentYOffset
+                    )}%, 0)`;
+                    objs.messageC.style.opacity = calcValues(
+                        values.messageC_opacity_in,
+                        currentYOffset
+                    );
+                    objs.pinC.style.transform = `scaleY(${calcValues(
+                        values.pinC_scaleY,
+                        currentYOffset
+                    )})`;
+                } else {
+                    // out
+                    objs.messageC.style.transform = `translate3d(0, ${calcValues(
+                        values.messageC_translateY_out,
+                        currentYOffset
+                    )}%, 0)`;
+                    objs.messageC.style.opacity = calcValues(
+                        values.messageC_opacity_out,
+                        currentYOffset
+                    );
+                    objs.pinC.style.transform = `scaleY(${calcValues(
+                        values.pinC_scaleY,
+                        currentYOffset
+                    )})`;
+                }
+
+                break;
+
+            case 3:
+                break;
+        }
+    }
+
+    function scrollLoop() {
+        enterNewScene = false;
+        prevScrollHeight = 0;
+
+        for (let i = 0; i < currentScene; i++) {
+            prevScrollHeight += sceneInfo[i].scrollHeight;
+        }
+
+        if (
+            delayedYOffset <
+            prevScrollHeight + sceneInfo[currentScene].scrollHeight
+        ) {
+            document.body.classList.remove('scroll-effect-end');
+        }
+
+        if (
+            delayedYOffset >
+            prevScrollHeight + sceneInfo[currentScene].scrollHeight
+        ) {
+            enterNewScene = true;
+            if (currentScene === sceneInfo.length - 1) {
+                document.body.classList.add('scroll-effect-end');
+            }
+            if (currentScene < sceneInfo.length - 1) {
+                currentScene++;
+            }
+            document.body.setAttribute('id', `show-scene-${currentScene}`);
+        }
+
+        if (delayedYOffset < prevScrollHeight) {
+            enterNewScene = true;
+            // 브라우저 바운스 효과로 인해 마이너스가 되는 것을 방지(모바일)
+            if (currentScene === 0) return;
+            currentScene--;
+            document.body.setAttribute('id', `show-scene-${currentScene}`);
+        }
+
+        if (enterNewScene) return;
+
+        playAnimation();
+    }
+
+    function setLayout() {
+        // 각 스크롤 섹션의 높이 세팅
+        for (let i = 0; i < sceneInfo.length; i++) {
+            if (sceneInfo[i].type === 'sticky') {
+                sceneInfo[i].scrollHeight =
+                    sceneInfo[i].heightNum * window.innerHeight;
+            } else if (sceneInfo[i].type === 'normal') {
+                sceneInfo[i].scrollHeight =
+                    sceneInfo[i].objs.content.offsetHeight +
+                    window.innerHeight * 0.5;
+            }
+            sceneInfo[
+                i
+            ].objs.container.style.height = `${sceneInfo[i].scrollHeight}px`;
+        }
+
+        yOffset = window.pageYOffset;
+
+        let totalScrollHeight = 0;
+        for (let i = 0; i < sceneInfo.length; i++) {
+            totalScrollHeight += sceneInfo[i].scrollHeight;
+            if (totalScrollHeight >= yOffset) {
+                currentScene = i;
+                break;
+            }
+        }
+        document.body.setAttribute('id', `show-scene-${currentScene}`);
+    }
+
+    window.addEventListener('load', () => {
+        setLayout(); // 중간에 새로고침 시, 콘텐츠 양에 따라 높이 계산에 오차가 발생하는 경우를 방지하기 위해 before-load 클래스 제거 전에도 확실하게 높이를 세팅하도록 한번 더 실행
+        document.body.classList.remove('before-load');
+        setLayout();
+
+        window.addEventListener('scroll', () => {
+            yOffset = window.pageYOffset;
+            scrollLoop();
+            // checkMenu();
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 900) {
+                window.location.reload();
+            }
+        });
+    });
 })();
